@@ -54,6 +54,34 @@ public class MemberRepositoryV0 {
         throw new NoSuchElementException("Member not found memberId = " + memberId);
     }
 
+    public void update(String memberId, int money) throws SQLException {
+        String sql = "update member set money=? where member_id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, money);
+            ps.setString(2, memberId);
+            int resultSize = ps.executeUpdate();
+            log.info("resultSize = {}", resultSize);
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        }
+    }
+
+    public void delete(String memberId) throws SQLException {
+        String sql = "delete from member where member_id = ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, memberId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        }
+    }
+
     private Connection getConnection() {
         return DBConnectionUtil.getConnection();
     }
