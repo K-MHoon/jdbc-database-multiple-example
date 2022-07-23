@@ -84,8 +84,9 @@ public class MemberRepositoryV3 {
             ps.executeUpdate();
         } catch (SQLException e) {
             log.error("db error", e);
-            close(con, ps, null);
             throw e;
+        } finally {
+            close(con, ps, null);
         }
     }
 
@@ -106,8 +107,9 @@ public class MemberRepositoryV3 {
             log.info("resultSize = {}", resultSize);
         } catch (SQLException e) {
             log.error("db error", e);
-            close(con, ps, null);
             throw e;
+        } finally {
+            close(con, ps, null);
         }
     }
 
